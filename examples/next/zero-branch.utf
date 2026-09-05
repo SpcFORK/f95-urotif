@@ -1,0 +1,14 @@
+=) urotif
+# Nonrecursive source macros. Each .use expands to primitive Urotif bytes.
+`[std.int]r@@
+%
+{0}
+{11}{0}=
+[nonzero\x3A ]S@
+$
+$\n$
+h@
+_
+[zero]S@
+$\n$
+h@

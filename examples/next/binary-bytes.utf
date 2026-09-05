@@ -1,0 +1,5 @@
+=) urotif
+# Includes NUL and invalid UTF-8; --json reports replacement text plus exact hex.
+[\x00\xFF\xC3\xA9\x0A]S@
+$
+h@

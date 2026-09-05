@@ -1,0 +1,12 @@
+.include ../../lib/typed.ufm
+.text Straße café
+.use uppercase
+.println
+.text A😀é
+.dup
+.use codepoints
+.println
+.ref std.len
+@
+.println
+.halt

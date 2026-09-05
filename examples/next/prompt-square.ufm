@@ -1,0 +1,9 @@
+.text Number: 
+.print
+.read
+.ref std.float
+@
+.ref math.square
+@
+.println
+.halt

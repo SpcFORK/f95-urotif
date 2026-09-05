@@ -1,0 +1,11 @@
+=) urotif
+# Experimental --core syntax, not an archived prototype program.
+=) fact
+  dup {1}le ifnz base
+  dup {1}- call fact * return
+:base
+  drop {1}
+end
+=) main
+  {6}call fact println
+end

@@ -1,0 +1,15 @@
+.include ../../lib/typed.ufm
+.text Left
+.text Right
+.use byte_concat
+.dup
+.println
+.number 4
+.use byte_prefix
+.println
+.ref buffers.empty
+@
+.ref std.len
+@
+.println
+.halt

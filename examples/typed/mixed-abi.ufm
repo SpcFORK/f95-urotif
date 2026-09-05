@@ -1,0 +1,14 @@
+# ABI 1, ABI 2, and a built-in numeric function in the same program.
+.number 3
+.ref demo.cube
+@
+.println
+.bytes 00 FF
+.ref buffers.hex
+@
+.println
+.number 7
+.ref math.square
+@
+.println
+.halt

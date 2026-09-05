@@ -1,0 +1,13 @@
+=) urotif
+{3}
+[{10}{0}]k@
+[{8}{0}]k@
+$\n$
+h@
+# Include after the caller's .halt; labels are global within one assembly.
+%*
+R@
+%
+[{8}{0}]k@
+*
+R@

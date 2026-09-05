@@ -1,0 +1,15 @@
+=) urotif
+# ABI 1, ABI 2, and a built-in numeric function in the same program.
+{3}
+[demo.cube]r@
+@
+$\n$
+[\x00\xFF]S@
+[buffers.hex]r@
+@
+$\n$
+{7}
+[math.square]r@
+@
+$\n$
+h@

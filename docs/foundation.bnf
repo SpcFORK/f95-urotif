@@ -1,0 +1,102 @@
+; Urotif Foundation 0.2 -- proposed byte-oriented surface grammar.
+; This grammar describes source units, NOT a structured AST that erases
+; interior byte addresses. Every normalized byte remains a possible entry.
+; Empty is written <empty>. Ranges below denote ASCII bytes.
+
+<program> ::= <header> <body> | <body>
+<header> ::= "=)" <header-bytes> <lf>
+<header-bytes> ::= <empty> | <non-lf-byte> <header-bytes>
+<body> ::= <empty> | <unit> <body>
+<unit> ::= <push-byte> | <operator> | <escape> | <lf> | <ignored-byte>
+<push-byte> ::= <letter> | <digit> | <space> | "<" | ">" | "," | "." | "/" | <quote> | <apostrophe>
+<letter> ::= "a".."z" | "A".."Z"
+<digit> ::= "0".."9"
+<space> ::= ASCII-32
+<quote> ::= ASCII-34
+<apostrophe> ::= ASCII-39
+<lf> ::= ASCII-10
+<escape> ::= <backslash> <non-lf-byte>
+<backslash> ::= ASCII-92
+<operator> ::= "[" | "]" | "{" | "}" | "%" | "_" | "+" | "-" | "*" | "|"
+             | "~" | "$" | ":" | ";" | "@" | "`" | "^" | "=" | "#" | "&"
+<ignored-byte> ::= any byte not matched by a push-byte, operator, escape start, or lf
+<non-lf-byte> ::= any byte other than ASCII-10
+
+; Operational constraints (some source paths may be deliberately unbalanced):
+; [ opens an isolated construction frame; ] collects its values as an array.
+; { opens a numeric construction; } stringifies its values and parses a decimal.
+; Mismatched closing delimiters / excess depth fail when EXECUTED.
+; A construction prevents pop from reading below its current base.
+; \n pushes LF. Other escaped bytes push that byte literally; \t is literal t.
+; # transfers to column 0 of the next line in Foundation. Its skipped bytes
+; still have decoded entries in case a different jump enters them.
+; & is recognized but deliberately unsupported (P006), not an object grammar.
+; Spaces and commas are ordinary DATA. They are not argument separators.
+; Digits are one-character TEXT until explicitly converted/constructed.
+; / is text; | is division. Unknown plain bytes are ignored, not new macros.
+; Initial header is skipped only on normal entry; byte entries are retained.
+
+; Common construction patterns (conveniences, not mandatory lexical grouping):
+<array-pattern> ::= "[" <body> "]"
+<number-pattern> ::= "{" <body> "}"
+<join-pattern> ::= <array-pattern> "S@"
+<module-pattern> ::= <name-value-expression> "i@"
+<member-pattern> ::= "[" <module-value-expression> <name-value-expression> "]g@"
+<qualified-reference-pattern> ::= <name-value-expression> "r@"
+<standard-reference-pattern> ::= <name-value-expression> "G@"
+<packet-apply-pattern> ::= "[" <reference-value-expression> <argument-expressions> "]a@"
+<standard-call-pattern> ::= "[" <name-value-expression> <argument-expressions> "]C@"
+<direct-apply-pattern> ::= <argument-expressions> <reference-value-expression> "@"
+<coordinate-call-pattern> ::= "[" <line-value-expression> <column-value-expression> "]k@"
+<return-pattern> ::= "R@"
+<halt-pattern> ::= "h@"
+<argument-expressions> ::= <empty> | <value-expression> <argument-expressions>
+<name-value-expression> ::= <value-expression>
+<module-value-expression> ::= <value-expression>
+<reference-value-expression> ::= <value-expression>
+<line-value-expression> ::= <value-expression>
+<column-value-expression> ::= <value-expression>
+<value-expression> ::= <body>
+
+; The broad value-expression production is intentional. The byte language
+; has dynamic stack effects and arbitrary goto: the runtime checks whether
+; an expression actually supplies a name/module/reference/coordinate/value.
+; External names accept text or an array of text elements joined in order.
+; Qualified metadata names are MODULE.SYMBOL; bare r@ names default to std.
+; i@ only sees host-granted modules and cannot load a native file.
+; Reference-on-top @ consumes arity arguments in source order, pushes result.
+; a@ and C@ require a packet of 1..9 items: reference/name plus 0..8 arguments.
+; ^ consumes COLUMN then LINE. = consumes COLUMN, LINE, RIGHT, LEFT;
+; it jumps only if LEFT and RIGHT compare equal. It never preserves LEFT.
+; Taken jump/call coordinates: line >= 1; column >= 0; both integral.
+; Numeric integer/float equality is permitted; text and numbers are distinct.
+; Built-in standard-value services and numeric foreign services share syntax,
+; but only the latter use the numeric plugin ABI.
+
+; Optional F95 symbolic assembler (.ufm), before primitive compilation:
+<assembly> ::= <empty> | <assembly-line> <assembly>
+<assembly-line> ::= ".label " <identifier> <lf>
+                  | ".goto " <identifier> <lf>
+                  | ".eq " <identifier> <lf>
+                  | ".call " <identifier> <lf>
+                  | ".return" <lf>
+                  | ".halt" <lf>
+                  | <raw-line> <lf>
+<identifier> ::= <identifier-start> <identifier-tail>
+<identifier-start> ::= <letter> | "_"
+<identifier-tail> ::= <empty> | <identifier-byte> <identifier-tail>
+<identifier-byte> ::= <identifier-start> | <digit>
+<raw-line> ::= <empty> | <raw-leading-byte> <header-bytes>
+<raw-leading-byte> ::= any non-lf byte other than "."
+
+; Directives occupy whole lines, start at column 0, and permit surrounding
+; spaces on their argument. Identifier maximum length is 63; at most 1024.
+; The assembler emits a header (and skips an optional first input header).
+; .label emits no code and denotes column 0 of the next emitted line.
+; .goto NAME   -> {resolved-line}{0}^
+; .eq NAME     -> {resolved-line}{0}=
+; .call NAME   -> [{resolved-line}{0}]k@
+; .return      -> R@
+; .halt        -> h@
+; To begin a raw assembly line with literal dot data, escape the dot.
+; Labels/directives do not exist in the primitive runtime or add opcodes.

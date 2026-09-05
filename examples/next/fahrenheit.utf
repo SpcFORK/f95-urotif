@@ -1,0 +1,11 @@
+=) urotif
+# Nonrecursive source macros. Each .use expands to primitive Urotif bytes.
+`[std.float]r@@
+{32}
+-
+{5}
+*
+{9}
+|
+$\n$
+h@

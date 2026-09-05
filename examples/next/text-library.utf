@@ -1,0 +1,7 @@
+=) urotif
+# Nonrecursive source macros. Each .use expands to primitive Urotif bytes.
+[Hello, ]S@
+[World\x21]S@
+x@+
+$\n$
+h@

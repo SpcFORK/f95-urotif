@@ -1,0 +1,14 @@
+.include ../../lib/prelude.ufm
+.use read_int
+.dup
+.number 0
+.eq zero
+.text nonzero: 
+.print
+.println
+.halt
+.label zero
+.drop
+.text zero
+.println
+.halt

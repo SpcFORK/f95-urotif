@@ -1,0 +1,26 @@
+; Urotif 0.4: metadata syntax; source opcode grammar is unchanged.
+; Used as the argument of --extern-v2, not a new Urotif instruction/directive.
+<typed-declaration> ::= <module-name> "." <symbol-name> "/" <parameter-kinds> "->" <kind>
+<parameter-kinds> ::= <empty> | <kind> <more-kinds>
+<more-kinds> ::= <empty> | "," <kind> <more-kinds>
+<kind> ::= "number" | "bytes" | "vector"
+<module-name> ::= <identifier>
+<symbol-name> ::= <identifier>
+<identifier> ::= <identifier-start> <identifier-tail>
+<identifier-start> ::= "a".."z" | "A".."Z" | "_"
+<identifier-tail> ::= <empty> | <identifier-byte> <identifier-tail>
+<identifier-byte> ::= <identifier-start> | "0".."9"
+; Constraints: identifier lengths 1..63 ASCII bytes; 0..8 parameter kinds;
+; exactly one result kind; no internal whitespace/aliases; std/math reserved.
+; The shell must quote -> so it is not interpreted as redirection.
+;
+; Existing application productions are shared by ABI 1, ABI 2 and built-ins:
+<direct-apply> ::= <argument-expressions> <reference-value-expression> "@"
+<packet-apply> ::= "[" <reference-value-expression> <argument-expressions> "]a@"
+; Reference creation: r@, g@, G@ as in foundation.bnf.
+; .ref and .use conveniences are as in roundtrip.bnf.
+; Number: existing numeric/integer-tagged value, finite binary64 at the boundary.
+; Bytes: existing byte/text value; UTF-8 is a library convention, not an ABI tag.
+; Vector: existing flat array, all children numeric. Nested/mixed arrays reject.
+; Arguments are checked at application, not statically inferred from bytecode.
+; Internal reference kind 7 selects the generic typed channel, not a new opcode.

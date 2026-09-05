@@ -1,0 +1,12 @@
+.number 1
+.number 2
+.number 3
+.rot
+.pack 3
+.println
+.text dynamic pack
+.number 42
+.depth
+.pack
+.println
+.halt

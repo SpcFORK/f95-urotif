@@ -1,0 +1,6 @@
+.number 3
+.call cube
+.call square
+.println
+.halt
+.include ../../lib/math-routines.ufm

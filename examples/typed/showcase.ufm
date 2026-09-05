@@ -1,0 +1,18 @@
+.include ../../lib/typed.ufm
+.bytes 00 FF 43
+.use hex
+.println
+.number 10
+.number 20
+.pack 2
+.number 2
+.number 1
+.use affine
+.dup
+.println
+.use vector_sum
+.println
+.text Straße café
+.use uppercase
+.println
+.halt

@@ -1,0 +1,15 @@
+.include ../../lib/typed.ufm
+.number 2
+.number 4
+.pack 2
+.call transform
+.dup
+.println
+.use vector_sum
+.println
+.halt
+.label transform
+.number 10
+.number 1
+.use affine
+.return

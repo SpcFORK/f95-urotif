@@ -1,0 +1,17 @@
+=) urotif
+# Optional convenience words: ordinary source macros, not new VM opcodes.
+# Import declarations / native libraries must still be granted by the caller.
+[Left]S@
+[Right]S@
+[buffers.concat]r@@
+%
+$\n$
+{4}
+[buffers.prefix]r@@
+$\n$
+[buffers.empty]r@
+@
+[std.len]r@
+@
+$\n$
+h@

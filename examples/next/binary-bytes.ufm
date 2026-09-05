@@ -1,0 +1,4 @@
+# Includes NUL and invalid UTF-8; --json reports replacement text plus exact hex.
+.bytes 00 FF C3 A9 0A
+.print
+.halt

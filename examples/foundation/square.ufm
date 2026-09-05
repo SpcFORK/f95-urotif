@@ -1,0 +1,8 @@
+# Symbolic conveniences assemble to the same primitive character language.
+{9}
+.call square
+$
+.halt
+.label square
+%*
+.return

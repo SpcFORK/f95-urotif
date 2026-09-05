@@ -1,0 +1,8 @@
+.label read
+[[[std]i@[int]S@]g@`]a@%{0}
+.eq zero
+$
+.goto read
+.label zero
+%$
+.goto zero

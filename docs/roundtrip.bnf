@@ -1,0 +1,29 @@
+; Urotif 0.3 additions; layers on foundation.bnf, not a replacement grammar.
+; Lines use LF after normalization. Raw byte columns remain significant.
+<assembly> ::= { <assembly-line> <LF> }
+<assembly-line> ::= <primitive-line> | <directive>
+<directive> ::= ".include " <local-path>
+              | ".define " <identifier> " " <nonrecursive-primitive-body>
+              | ".use " <identifier>
+              | ".text " <literal-line-remainder>
+              | ".bytes " { <hex-pair> [ <space> ] }
+              | ".number " <finite-decimal>
+              | ".ref " <external-name>
+              | ".import " <module-name>
+              | ".pack" [ " " <nonnegative-integral-decimal> ]
+              | ".dup" | ".drop" | ".swap" | ".over" | ".rot" | ".depth"
+              | ".read" | ".print" | ".println"
+              | ".label " <identifier> | ".goto " <identifier>
+              | ".eq " <identifier> | ".call " <identifier>
+              | ".return" | ".halt"
+<hex-pair> ::= <hex-digit> <hex-digit>
+<hex-digit> ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+              | "a" | "b" | "c" | "d" | "e" | "f" | "A" | "B" | "C" | "D" | "E" | "F"
+<foundation-hex-escape> ::= "\x" <hex-pair>
+<foundation-stack-call> ::= "x@" | "o@" | "t@" | "d@" | "b@"
+; x@: (a b -- b a); o@: (a b -- a b a); t@: (a b c -- b c a)
+; d@: (... -- ... depth); b@: (... a1 ... an n -- ... [a1 ... an])
+; Definitions expand only when .use appears and do not recursively expand.
+; Includes resolve relative to their including file; labels are assembly-global.
+; .text preserves its literal remainder, including trailing spaces, encoding
+; non-pushable / non-ASCII bytes as hex escapes. It does not parse \n as newline.

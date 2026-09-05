@@ -1,0 +1,123 @@
+[
+  {
+    "name": "showcase",
+    "source": "examples/typed/showcase.ufm",
+    "program": "examples/typed/showcase.utf",
+    "imports": [
+      "buffers.hex/bytes->bytes",
+      "buffers.affine/vector,number,number->vector",
+      "buffers.sum/vector->number",
+      "unicode.upper/bytes->bytes"
+    ],
+    "input": "",
+    "output": "00ff43\n[21, 41]\n62\nSTRASSE CAFÉ\n",
+    "output_hex": "3030666634330a5b32312c2034315d0a36320a5354524153534520434146c3890a"
+  },
+  {
+    "name": "binary-hex",
+    "source": "examples/typed/binary-hex.ufm",
+    "program": "examples/typed/binary-hex.utf",
+    "imports": [
+      "buffers.hex/bytes->bytes",
+      "buffers.unhex/bytes->bytes"
+    ],
+    "input": "",
+    "output": "00ff430a\n00ff430a\n",
+    "output_hex": "30306666343330610a30306666343330610a"
+  },
+  {
+    "name": "byte-join",
+    "source": "examples/typed/byte-join.ufm",
+    "program": "examples/typed/byte-join.utf",
+    "imports": [
+      "buffers.concat/bytes,bytes->bytes",
+      "buffers.prefix/bytes,number->bytes",
+      "buffers.empty/->bytes"
+    ],
+    "input": "",
+    "output": "LeftRight\nLeft\n0\n",
+    "output_hex": "4c65667452696768740a4c6566740a300a"
+  },
+  {
+    "name": "vector-affine",
+    "source": "examples/typed/vector-affine.ufm",
+    "program": "examples/typed/vector-affine.utf",
+    "imports": [
+      "buffers.affine/vector,number,number->vector",
+      "buffers.sum/vector->number"
+    ],
+    "input": "",
+    "output": "[21, 41]\n62\n",
+    "output_hex": "5b32312c2034315d0a36320a"
+  },
+  {
+    "name": "vector-dot",
+    "source": "examples/typed/vector-dot.ufm",
+    "program": "examples/typed/vector-dot.utf",
+    "imports": [
+      "buffers.dot/vector,vector->number"
+    ],
+    "input": "",
+    "output": "32\n",
+    "output_hex": "33320a"
+  },
+  {
+    "name": "vector-sort",
+    "source": "examples/typed/vector-sort.ufm",
+    "program": "examples/typed/vector-sort.utf",
+    "imports": [
+      "unicode.sort/vector->vector",
+      "buffers.sum/vector->number"
+    ],
+    "input": "",
+    "output": "[-2, 0, 3, 3]\n4\n",
+    "output_hex": "5b2d322c20302c20332c20335d0a340a"
+  },
+  {
+    "name": "unicode",
+    "source": "examples/typed/unicode.ufm",
+    "program": "examples/typed/unicode.utf",
+    "imports": [
+      "unicode.upper/bytes->bytes",
+      "unicode.codepoints/bytes->number"
+    ],
+    "input": "",
+    "output": "STRASSE CAFÉ\n3\n7\n",
+    "output_hex": "5354524153534520434146c3890a330a370a"
+  },
+  {
+    "name": "typed-packet",
+    "source": "examples/typed/typed-packet.ufm",
+    "program": "examples/typed/typed-packet.utf",
+    "imports": [
+      "buffers.affine/vector,number,number->vector"
+    ],
+    "input": "",
+    "output": "[21, 41]\n",
+    "output_hex": "5b32312c2034315d0a"
+  },
+  {
+    "name": "typed-subroutine",
+    "source": "examples/typed/typed-subroutine.ufm",
+    "program": "examples/typed/typed-subroutine.utf",
+    "imports": [
+      "buffers.affine/vector,number,number->vector",
+      "buffers.sum/vector->number"
+    ],
+    "input": "",
+    "output": "[21, 41]\n62\n",
+    "output_hex": "5b32312c2034315d0a36320a"
+  },
+  {
+    "name": "mixed-abi",
+    "source": "examples/typed/mixed-abi.ufm",
+    "program": "examples/typed/mixed-abi.utf",
+    "imports": [
+      "demo.cube/1",
+      "buffers.hex/bytes->bytes"
+    ],
+    "input": "",
+    "output": "27\n00ff\n49\n",
+    "output_hex": "32370a303066660a34390a"
+  }
+]

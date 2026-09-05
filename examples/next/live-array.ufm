@@ -1,0 +1,14 @@
+.number 10
+.number 20
+.number 30
+.pack 3
+.dup
+.println
+.dup
+.number 1
+;
+.println
+.ref std.len
+@
+.println
+.halt

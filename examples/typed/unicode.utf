@@ -1,0 +1,14 @@
+=) urotif
+# Optional convenience words: ordinary source macros, not new VM opcodes.
+# Import declarations / native libraries must still be granted by the caller.
+[Stra\xC3\x9Fe caf\xC3\xA9]S@
+[unicode.upper]r@@
+$\n$
+[A\xF0\x9F\x98\x80\xC3\xA9]S@
+%
+[unicode.codepoints]r@@
+$\n$
+[std.len]r@
+@
+$\n$
+h@

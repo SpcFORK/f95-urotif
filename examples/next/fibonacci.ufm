@@ -1,0 +1,26 @@
+# Stack at loop entry: a b remaining. Print twelve Fibonacci terms.
+.number 0
+.number 1
+.number 12
+.label loop
+.dup
+.number 0
+.eq done
+.rot
+.dup
+.println
+.rot
+.over
+.over
++
+.rot
+.drop
+.rot
+.number 1
+-
+.goto loop
+.label done
+.drop
+.drop
+.drop
+.halt

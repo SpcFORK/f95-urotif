@@ -1,0 +1,10 @@
+.include ../../lib/prelude.ufm
+.use read_float
+.number 32
+-
+.number 5
+*
+.number 9
+|
+.println
+.halt

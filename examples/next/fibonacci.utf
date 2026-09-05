@@ -1,0 +1,25 @@
+=) urotif
+# Stack at loop entry: a b remaining. Print twelve Fibonacci terms.
+{0}
+{1}
+{12}
+%
+{0}
+{22}{0}=
+t@
+%
+$\n$
+t@
+o@
+o@
++
+t@
+_
+t@
+{1}
+-
+{6}{0}^
+_
+_
+_
+h@

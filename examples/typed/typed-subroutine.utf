@@ -1,0 +1,16 @@
+=) urotif
+# Optional convenience words: ordinary source macros, not new VM opcodes.
+# Import declarations / native libraries must still be granted by the caller.
+{2}
+{4}
+{2}b@
+[{13}{0}]k@
+%
+$\n$
+[buffers.sum]r@@
+$\n$
+h@
+{10}
+{1}
+[buffers.affine]r@@
+R@

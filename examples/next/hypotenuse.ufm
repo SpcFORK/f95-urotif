@@ -1,0 +1,6 @@
+.include ../../lib/prelude.ufm
+.number 3
+.number 4
+.use hypot
+.println
+.halt

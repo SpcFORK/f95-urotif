@@ -1,0 +1,11 @@
+# A first-class reference and its ordered arguments in one packet.
+[
+.ref buffers.affine
+.number 2
+.number 4
+.pack 2
+.number 10
+.number 1
+]a@
+.println
+.halt

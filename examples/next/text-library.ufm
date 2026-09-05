@@ -1,0 +1,6 @@
+.include ../../lib/prelude.ufm
+.text Hello, 
+.text World!
+.use concat
+.println
+.halt

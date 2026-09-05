@@ -1,0 +1,53 @@
+Urotif reference dispatcher -- descriptive BNF, milestone 0.1
+
+This describes the character stream, not the experimental word language.
+Quoted strings are terminals. <...> are nonterminals. "" is the empty string.
+BYTE classes and the optional leading-header priority are lexical conventions.
+A leading "=)" wins over ordinary dispatch and causes the first line to be
+skipped, regardless of the remaining header text. Runtime stack/type/coordinate
+rules are separate from this grammar.
+
+<program> ::= <optional-header> <stream>
+<optional-header> ::= "=)" <header-tail> <LF> | ""
+<header-tail> ::= <non-LF-byte> <header-tail> | ""
+<stream> ::= <unit> <stream> | ""
+<unit> ::= <pushable> | <command> | <escape> | <LF> | <ignored-byte>
+
+<pushable> ::= <letter> | <digit> | " " | "<" | ">" | "," | "." | "/"
+            | <double-quote> | <single-quote>
+<letter> ::= <lowercase> | <uppercase>
+<lowercase> ::= "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i"
+              | "j" | "k" | "l" | "m" | "n" | "o" | "p" | "q" | "r"
+              | "s" | "t" | "u" | "v" | "w" | "x" | "y" | "z"
+<uppercase> ::= "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I"
+              | "J" | "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R"
+              | "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z"
+<digit> ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+<command> ::= "_" | "%" | "$" | "+" | "-" | "*" | "|" | "~" | "`"
+            | "[" | "]" | "{" | "}" | ":" | ";" | "@" | "^" | "="
+            | "#" | "&"
+<escape> ::= <backslash> <non-LF-byte>
+
+Lexical classes:
+  <LF>            byte 0x0A
+  <double-quote>  byte 0x22
+  <single-quote>  byte 0x27
+  <backslash>     byte 0x5C
+  <non-LF-byte>   any source byte except LF
+  <ignored-byte>  a byte without a push macro or command in the dispatch table
+
+Important semantic distinctions:
+  - P@ is two instructions: push the character P, then dispatch @.
+  - Quotes push themselves; they do not introduce string literals here.
+  - [ and ] open/close an executing construction stack, not an opaque string.
+  - { and } also execute their contents, then stringify/join/convert to float.
+  - Digits and spaces are data, not ignored whitespace or numeric literals.
+  - Semicolon indexes; it is NOT a statement separator.
+  - Coordinates and = operate on runtime stack values.
+  - Jumps can change the construction context; balanced source syntax alone
+    cannot establish stack validity or safe execution.
+  - & is present in the source alphabet but not implemented in this milestone.
+
+Recognized @ behavior is constrained by the implementation coverage documented
+in README.md. No new user-defined subroutine grammar is asserted for this
+reference path; the separately flagged experimental scaffold is non-normative.

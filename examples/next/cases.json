@@ -1,0 +1,128 @@
+[
+  {
+    "name": "hello-utf8",
+    "source": "examples/next/hello-utf8.ufm",
+    "program": "examples/next/hello-utf8.utf",
+    "input": "",
+    "output": "Café ☕ — Hello from Urotif!\n",
+    "output_hex": "436166c3a920e2989520e280942048656c6c6f2066726f6d2055726f746966210a",
+    "status": 0
+  },
+  {
+    "name": "cube-library",
+    "source": "examples/next/cube-library.ufm",
+    "program": "examples/next/cube-library.utf",
+    "input": "",
+    "output": "27\n",
+    "output_hex": "32370a",
+    "status": 0
+  },
+  {
+    "name": "factorial",
+    "source": "examples/next/factorial.ufm",
+    "program": "examples/next/factorial.utf",
+    "input": "",
+    "output": "720\n",
+    "output_hex": "3732300a",
+    "status": 0
+  },
+  {
+    "name": "fibonacci",
+    "source": "examples/next/fibonacci.ufm",
+    "program": "examples/next/fibonacci.utf",
+    "input": "",
+    "output": "0\n1\n1\n2\n3\n5\n8\n13\n21\n34\n55\n89\n",
+    "output_hex": "300a310a310a320a330a350a380a31330a32310a33340a35350a38390a",
+    "status": 0
+  },
+  {
+    "name": "live-array",
+    "source": "examples/next/live-array.ufm",
+    "program": "examples/next/live-array.utf",
+    "input": "",
+    "output": "[10, 20, 30]\n20\n3\n",
+    "output_hex": "5b31302c2032302c2033305d0a32300a330a",
+    "status": 0
+  },
+  {
+    "name": "prompt-square",
+    "source": "examples/next/prompt-square.ufm",
+    "program": "examples/next/prompt-square.utf",
+    "input": "9\n",
+    "output": "Number: 81\n",
+    "output_hex": "4e756d6265723a2038310a",
+    "status": 0
+  },
+  {
+    "name": "record-length",
+    "source": "examples/next/record-length.ufm",
+    "program": "examples/next/record-length.utf",
+    "input": "hello\n",
+    "output": "5\n",
+    "output_hex": "350a",
+    "status": 0
+  },
+  {
+    "name": "binary-bytes",
+    "source": "examples/next/binary-bytes.ufm",
+    "program": "examples/next/binary-bytes.utf",
+    "input": "",
+    "output": "\u0000�é\n",
+    "output_hex": "00ffc3a90a",
+    "status": 0
+  },
+  {
+    "name": "nested-calls",
+    "source": "examples/next/nested-calls.ufm",
+    "program": "examples/next/nested-calls.utf",
+    "input": "",
+    "output": "729\n",
+    "output_hex": "3732390a",
+    "status": 0
+  },
+  {
+    "name": "zero-branch",
+    "source": "examples/next/zero-branch.ufm",
+    "program": "examples/next/zero-branch.utf",
+    "input": "7\n",
+    "output": "nonzero: 7\n",
+    "output_hex": "6e6f6e7a65726f3a20370a",
+    "status": 0
+  },
+  {
+    "name": "text-library",
+    "source": "examples/next/text-library.ufm",
+    "program": "examples/next/text-library.utf",
+    "input": "",
+    "output": "Hello, World!\n",
+    "output_hex": "48656c6c6f2c20576f726c64210a",
+    "status": 0
+  },
+  {
+    "name": "hypotenuse",
+    "source": "examples/next/hypotenuse.ufm",
+    "program": "examples/next/hypotenuse.utf",
+    "input": "",
+    "output": "5\n",
+    "output_hex": "350a",
+    "status": 0
+  },
+  {
+    "name": "fahrenheit",
+    "source": "examples/next/fahrenheit.ufm",
+    "program": "examples/next/fahrenheit.utf",
+    "input": "212\n",
+    "output": "100\n",
+    "output_hex": "3130300a",
+    "status": 0
+  },
+  {
+    "name": "stack-tour",
+    "source": "examples/next/stack-tour.ufm",
+    "program": "examples/next/stack-tour.utf",
+    "input": "",
+    "output": "[2, 3, 1]\n['dynamic pack', 42]\n",
+    "output_hex": "5b322c20332c20315d0a5b2764796e616d6963207061636b272c2034325d0a",
+    "status": 0
+  }
+]

@@ -1,0 +1,19 @@
+# Stack at loop entry: n accumulator.
+.number 6
+.number 1
+.label loop
+.over
+.number 0
+.eq done
+.over
+*
+.swap
+.number 1
+-
+.swap
+.goto loop
+.label done
+.swap
+.drop
+.println
+.halt

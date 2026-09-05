@@ -1,0 +1,9 @@
+.include ../../lib/typed.ufm
+.bytes 00 FF 43 0A
+.use hex
+.dup
+.println
+.use unhex
+.use hex
+.println
+.halt
