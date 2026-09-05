@@ -1,0 +1,218 @@
+# ============================================================================
+#  PARITY PALACE
+#
+#  A pretty big Urotif program for a trivial idea:
+#  read a number, declare it EVEN or ODD, with full institutional ceremony.
+#
+#  Profile:   Foundation + 0.3 source conveniences (bin/urotif >= 0.3)
+#  Run:       bin/urotif assemble examples/grand/parity-palace.ufm -o build/pp.utf
+#             printf '4\n7\n0\n' | bin/urotif run build/pp.utf --foundation --fuel 100000
+#
+#  Architectural conventions (documented, of course, because institutions):
+#
+#    * One persistent value lives at stack bottom: the LEDGER T = [q e o]
+#        q = total petitions, e = even verdicts, o = odd verdicts.
+#    * Every subroutine is stack-balanced around T. Titles are ceremonial;
+#      stack effects are contractual.
+#    * Parity is established by MOD2: repeated subtraction by two, because
+#      the palace does not trust division with matters of state.
+#    * An AUDIT COMMITTEE re-derives each verdict via float doctrine
+#      ((n/2)*2 == n). The audit is not independent. The palace declines
+#      comment. It is never observed to disagree; that is the joke.
+#    * There is no quit command. EOF is the only door. This is a design
+#      decision, renamed from "omission" in the minutes of meeting #1.
+# ============================================================================
+
+.include ../../lib/prelude.ufm
+# Provides: read_int (`[std.int]r@@) and newline (\n$). All other words
+# are defined here, in-house, at great expense.
+
+# ----------------------------------------------------------------------------
+#  MACRO GLOSSARY -- ledger surgery via pure tacit juggling.
+#  (Only % x@ ; _ {n} b@ are used. No item ever crosses a stage unseen.)
+# ----------------------------------------------------------------------------
+
+.define bump_q    %{0};{1}+x@%{1};x@%{2};_{3}b@
+.define bump_e    %{0};x@%{1};{1}+x@%{2};_{3}b@
+.define bump_o    %{0};x@%{1};x@%{2};{1}+x@_{3}b@
+
+# pct_evens: ( T -- T pct ). The widest juggling act in the building.
+# Trace verified by hand; see PARITY-PALACE.md, appendix B, for the
+# full ceremonial ledger of pushes and rotates.
+.define pct_evens %{0};x@%{1};x@%{2};_x@t@x@{100}*x@|
+
+# ----------------------------------------------------------------------------
+#  MAIN -- the petition funnel. Runs forever; EOF applies h@ on our behalf.
+# ----------------------------------------------------------------------------
+
+.number 0
+.number 0
+.number 0
+.pack 3
+# Stack: T = [0 0 0]. The ledger is born.
+
+.call fanfare
+
+.label loop
+.use bump_q
+.call ask
+.call audit
+.call announce
+.call show_stats
+.call stairs
+.goto loop
+.halt
+# ^ Statistically unreachable: end-of-input halts the program first.
+#   The palace keeps it anyway, the way governments keep old flags.
+
+# ----------------------------------------------------------------------------
+#  SUBROUTINE WINGS (all libraries live below .halt, per local building code)
+# ----------------------------------------------------------------------------
+
+# -- fanfare ( T -- T ) ------------------------------------------------------
+.label fanfare
+.text ================================================================
+.println
+.text   THE PARITY PALACE
+.println
+.text   one question, answered with full ceremony: EVEN, or ODD?
+.println
+.text ================================================================
+.println
+.text (to leave, simply stop supplying numbers)
+.println
+.return
+
+# -- ask ( T -- T n ) --------------------------------------------------------
+# Prompts, reads one line, converts via the sanctioned std.int reference.
+# Non-numeric petitions fail as diagnostics, as is the local custom.
+.label ask
+.text -- petitioner, state thy number:
+$
+.use read_int
+.return
+
+# -- audit ( T n -- T n ) ----------------------------------------------------
+# Independent* verification wing. (*not independent)
+.label audit
+%{2}|{2}*
+.eq audit_consistent
+.text audit: DIVERGENCE FROM DOCTRINE. the committee convenes at dawn.
+.println
+.goto audit_ret
+.label audit_consistent
+.text audit: consistent with doctrine. the committee adjourns.
+.println
+.label audit_ret
+.return
+
+# -- announce ( T n -- T ) ---------------------------------------------------
+.label announce
+%$
+.use newline
+.call mod2
+%{0}
+.eq announce_even
+%{1}
+.eq announce_odd
+.text PANIC: parity undecidable. the palace quietly burns.
+.println
+.halt
+.label announce_even
+_
+.text VERDICT: EVEN. bells ring once, and evenly.
+.println
+.use bump_e
+.goto announce_end
+.label announce_odd
+_
+.text VERDICT: ODD. tolerated, with ceremony.
+.println
+.use bump_o
+.goto announce_end
+.label announce_end
+.return
+
+# -- mod2 ( n -- p ) ---------------------------------------------------------
+# Her Majesty's parity engine. |n| first, then n := n - 2 until 0 or 1.
+# Running time is linear in the petitioner's enthusiasm; fuel applies.
+.label mod2
+[math.abs]r@@
+.label mod2_scan
+%{0}
+.eq mod2_zero
+%{1}
+.eq mod2_one
+{2}-
+.goto mod2_scan
+.label mod2_zero
+_{0}
+.return
+.label mod2_one
+_{1}
+.return
+
+# -- show_stats ( T -- T ) ---------------------------------------------------
+.label show_stats
+.text ledger
+$
+.text  | queries:
+$
+%{0};$
+.text  | evens:
+$
+%{1};$
+.text  | odds:
+$
+%{2};$
+.use newline
+.return
+
+# -- stairs ( T -- T ) -------------------------------------------------------
+# A five-step staircase of stars, descended after every single verdict,
+# because every verdict is an occasion.
+.label stairs
+{1}
+.label stairs_row
+%
+.call star_line
+{1}+
+%{6}
+.eq stairs_done
+.goto stairs_row
+.label stairs_done
+_
+.return
+
+# -- star_line ( r -- ) ------------------------------------------------------
+# Prints r stars and a newline. The asterisk is an operator in the raw
+# language, so it arrives by escape: \* . The palace respects escapes.
+.label star_line
+.label star_step
+%{0}
+.eq star_end
+\*$
+{1}-
+.goto star_step
+.label star_end
+_
+.use newline
+.return
+
+# -- grand_finale ( T -- T ) -------------------------------------------------
+# The unused wing. Computes the even-petition percentage via pct_evens,
+# delivers a moving farewell address. No caller exists; the door is
+# bricked up; the speech is rehearsed nightly regardless.
+.label grand_finale
+.text ================================================================
+.println
+.text THE PALACE RECUSES ITSELF. final figures:
+.println
+.use pct_evens
+.text percentage of even petitions, float doctrine:
+$
+%$_
+.use newline
+.text the palace thanks each petitioner, evenly.
+.println
+.return
