@@ -1,0 +1,6 @@
+std := import('std')
+std.println(type(std.int))
+std.println(type(int))
+std.println(int('2'))
+std.println(0 = '0')
+std.println('2' + '3')

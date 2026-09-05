@@ -1,0 +1,19 @@
+[package]
+name = "urotif-chain"
+version = "0.4.0"
+edition = "2021"
+description = "Linked WASM code-generation backend for the Fortran-owned Urotif implementation"
+publish = false
+
+[lib]
+name = "urotif_chain"
+crate-type = ["staticlib", "rlib"]
+
+[dependencies]
+wat = "1"
+libloading = "0.8"
+
+[profile.release]
+opt-level = 2
+# Keep unwinding within Rust so the FFI boundary can translate panics to errors.
+panic = "unwind"

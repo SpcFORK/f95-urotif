@@ -1,0 +1,10 @@
+main := import('main')
+std := import('std')
+
+fn sub if {
+	inp := input()
+	inp.data != ? -> inp.data |> main.text() |> std.println()
+	_ -> (std.println(''), sub())
+}
+
+sub()

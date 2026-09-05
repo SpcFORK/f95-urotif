@@ -1,0 +1,595 @@
+[
+  {
+    "name": "hello-01-character",
+    "path": "ablations/hello-01-character.utf",
+    "stdin": "",
+    "repair": false,
+    "fuel": 200,
+    "output": "",
+    "stack": [
+      "H"
+    ]
+  },
+  {
+    "name": "hello-02-array",
+    "path": "ablations/hello-02-array.utf",
+    "stdin": "",
+    "repair": false,
+    "fuel": 200,
+    "output": "",
+    "stack": [
+      [
+        "H",
+        "e",
+        "l",
+        "l",
+        "o",
+        ",",
+        " ",
+        "W",
+        "o",
+        "r",
+        "l",
+        "d",
+        "!"
+      ]
+    ]
+  },
+  {
+    "name": "hello-03-print",
+    "path": "ablations/hello-03-print.utf",
+    "stdin": "",
+    "repair": false,
+    "fuel": 200,
+    "output": "Hello, World!\n",
+    "stack": []
+  },
+  {
+    "name": "anb-01-read",
+    "path": "ablations/anb-01-read.utf",
+    "stdin": "2\n",
+    "repair": false,
+    "fuel": 200,
+    "output": "",
+    "stack": [
+      "2"
+    ]
+  },
+  {
+    "name": "anb-02-pair",
+    "path": "ablations/anb-02-pair.utf",
+    "stdin": "2\n3\n",
+    "repair": false,
+    "fuel": 200,
+    "output": "",
+    "stack": [
+      "2",
+      "3"
+    ]
+  },
+  {
+    "name": "anb-03-concatenate",
+    "path": "ablations/anb-03-concatenate.utf",
+    "stdin": "2\n3\n",
+    "repair": false,
+    "fuel": 200,
+    "output": "",
+    "stack": [
+      "32"
+    ]
+  },
+  {
+    "name": "anb-04-print",
+    "path": "ablations/anb-04-print.utf",
+    "stdin": "2\n3\n",
+    "repair": false,
+    "fuel": 200,
+    "output": "32",
+    "stack": []
+  },
+  {
+    "name": "fib-01-array",
+    "path": "ablations/fib-01-array.utf",
+    "stdin": "",
+    "repair": false,
+    "fuel": 200,
+    "output": "",
+    "stack": [
+      [
+        "0",
+        "1"
+      ]
+    ]
+  },
+  {
+    "name": "fib-02-duplicate",
+    "path": "ablations/fib-02-duplicate.utf",
+    "stdin": "",
+    "repair": false,
+    "fuel": 200,
+    "output": "",
+    "stack": [
+      [
+        "0",
+        "1"
+      ],
+      [
+        "0",
+        "1"
+      ]
+    ]
+  },
+  {
+    "name": "fib-03-key",
+    "path": "ablations/fib-03-key.utf",
+    "stdin": "",
+    "repair": false,
+    "fuel": 200,
+    "output": "",
+    "stack": [
+      [
+        "0",
+        "1"
+      ],
+      [
+        "0",
+        "1"
+      ],
+      "0"
+    ]
+  },
+  {
+    "name": "fib-04-source-index",
+    "path": "ablations/fib-04-source-index.utf",
+    "stdin": "",
+    "repair": false,
+    "fuel": 200,
+    "output": "",
+    "stack": [
+      [
+        "0",
+        "1"
+      ]
+    ],
+    "error": "P005"
+  },
+  {
+    "name": "fib-05-repaired-index",
+    "path": "ablations/fib-05-repaired-index.utf",
+    "stdin": "",
+    "repair": true,
+    "fuel": 200,
+    "output": "",
+    "stack": [
+      [
+        "0",
+        "1"
+      ],
+      "0"
+    ]
+  },
+  {
+    "name": "truth-01-name",
+    "path": "ablations/truth-01-name.utf",
+    "stdin": "",
+    "repair": false,
+    "fuel": 200,
+    "output": "",
+    "stack": [
+      "int"
+    ]
+  },
+  {
+    "name": "truth-02-call-array",
+    "path": "ablations/truth-02-call-array.utf",
+    "stdin": "2\n",
+    "repair": false,
+    "fuel": 200,
+    "output": "",
+    "stack": [
+      [
+        "int",
+        "2"
+      ]
+    ]
+  },
+  {
+    "name": "truth-03-source-call",
+    "path": "ablations/truth-03-source-call.utf",
+    "stdin": "2\n",
+    "repair": false,
+    "fuel": 200,
+    "output": "",
+    "stack": [],
+    "error": "P006"
+  },
+  {
+    "name": "truth-04-repaired-call",
+    "path": "ablations/truth-04-repaired-call.utf",
+    "stdin": "2\n",
+    "repair": true,
+    "fuel": 200,
+    "output": "",
+    "stack": [
+      2
+    ]
+  },
+  {
+    "name": "truth-05-comparison",
+    "path": "ablations/truth-05-comparison.utf",
+    "stdin": "2\n",
+    "repair": true,
+    "fuel": 200,
+    "output": "",
+    "stack": []
+  },
+  {
+    "name": "truth-06-print-underflow",
+    "path": "ablations/truth-06-print-underflow.utf",
+    "stdin": "2\n",
+    "repair": true,
+    "fuel": 200,
+    "output": "",
+    "stack": [],
+    "error": "P001"
+  },
+  {
+    "name": "truth-07-loop-only",
+    "path": "ablations/truth-07-loop-only.utf",
+    "stdin": "",
+    "repair": true,
+    "fuel": 25,
+    "output": "00000",
+    "stack": [],
+    "error": "P008"
+  },
+  {
+    "name": "digits-are-text",
+    "path": "ablations/digits-are-text.utf",
+    "stdin": "",
+    "repair": false,
+    "fuel": 200,
+    "output": "",
+    "stack": [
+      "0",
+      "1",
+      "2"
+    ]
+  },
+  {
+    "name": "spaces-are-values",
+    "path": "ablations/spaces-are-values.utf",
+    "stdin": "",
+    "repair": false,
+    "fuel": 200,
+    "output": "",
+    "stack": [
+      "a",
+      " ",
+      "b"
+    ]
+  },
+  {
+    "name": "unknown-character-noop",
+    "path": "ablations/unknown-character-noop.utf",
+    "stdin": "",
+    "repair": false,
+    "fuel": 200,
+    "output": "",
+    "stack": [
+      "a"
+    ]
+  },
+  {
+    "name": "quotes-are-characters",
+    "path": "ablations/quotes-are-characters.utf",
+    "stdin": "",
+    "repair": false,
+    "fuel": 200,
+    "output": "",
+    "stack": [
+      "'",
+      "p",
+      "'"
+    ]
+  },
+  {
+    "name": "nested-array",
+    "path": "ablations/nested-array.utf",
+    "stdin": "",
+    "repair": false,
+    "fuel": 200,
+    "output": "",
+    "stack": [
+      [
+        "a",
+        [
+          "b"
+        ],
+        "c"
+      ]
+    ]
+  },
+  {
+    "name": "number-construction",
+    "path": "ablations/number-construction.utf",
+    "stdin": "",
+    "repair": false,
+    "fuel": 200,
+    "output": "",
+    "stack": [
+      123
+    ]
+  },
+  {
+    "name": "number-addition",
+    "path": "ablations/number-addition.utf",
+    "stdin": "",
+    "repair": false,
+    "fuel": 200,
+    "output": "5",
+    "stack": []
+  },
+  {
+    "name": "number-subtraction",
+    "path": "ablations/number-subtraction.utf",
+    "stdin": "",
+    "repair": false,
+    "fuel": 200,
+    "output": "5",
+    "stack": []
+  },
+  {
+    "name": "number-negation",
+    "path": "ablations/number-negation.utf",
+    "stdin": "",
+    "repair": false,
+    "fuel": 200,
+    "output": "-2",
+    "stack": [
+      " "
+    ]
+  },
+  {
+    "name": "number-division",
+    "path": "ablations/number-division.utf",
+    "stdin": "",
+    "repair": false,
+    "fuel": 200,
+    "output": "1.5",
+    "stack": []
+  },
+  {
+    "name": "array-spread",
+    "path": "ablations/array-spread.utf",
+    "stdin": "",
+    "repair": false,
+    "fuel": 200,
+    "output": "",
+    "stack": [
+      "a",
+      "b"
+    ]
+  },
+  {
+    "name": "source-index-order",
+    "path": "ablations/source-index-order.utf",
+    "stdin": "",
+    "repair": false,
+    "fuel": 200,
+    "output": "",
+    "stack": [],
+    "error": "P005"
+  },
+  {
+    "name": "repaired-index-order",
+    "path": "ablations/repaired-index-order.utf",
+    "stdin": "",
+    "repair": true,
+    "fuel": 200,
+    "output": "",
+    "stack": [
+      "a"
+    ]
+  },
+  {
+    "name": "join-text",
+    "path": "ablations/join-text.utf",
+    "stdin": "",
+    "repair": false,
+    "fuel": 200,
+    "output": "",
+    "stack": [
+      "abc"
+    ]
+  },
+  {
+    "name": "stringify-array",
+    "path": "ablations/stringify-array.utf",
+    "stdin": "",
+    "repair": false,
+    "fuel": 200,
+    "output": "",
+    "stack": [
+      "['a', 'b']"
+    ]
+  },
+  {
+    "name": "pop-print-array",
+    "path": "ablations/pop-print-array.utf",
+    "stdin": "",
+    "repair": false,
+    "fuel": 200,
+    "output": "['a', 'b']",
+    "stack": []
+  },
+  {
+    "name": "print-requires-text-items",
+    "path": "ablations/print-requires-text-items.utf",
+    "stdin": "",
+    "repair": false,
+    "fuel": 200,
+    "output": "",
+    "stack": [],
+    "error": "P004"
+  },
+  {
+    "name": "goto-numeric-coordinates",
+    "path": "ablations/goto-numeric-coordinates.utf",
+    "stdin": "",
+    "repair": true,
+    "fuel": 200,
+    "output": "X",
+    "stack": []
+  },
+  {
+    "name": "goto-source-text-coordinates",
+    "path": "ablations/goto-source-text-coordinates.utf",
+    "stdin": "",
+    "repair": false,
+    "fuel": 200,
+    "output": "",
+    "stack": [],
+    "error": "P007"
+  },
+  {
+    "name": "goto-repaired-coordinates",
+    "path": "ablations/goto-repaired-coordinates.utf",
+    "stdin": "",
+    "repair": true,
+    "fuel": 200,
+    "output": "X",
+    "stack": []
+  },
+  {
+    "name": "comment-source-column-carry",
+    "path": "ablations/comment-source-column-carry.utf",
+    "stdin": "",
+    "repair": false,
+    "fuel": 200,
+    "output": "B",
+    "stack": []
+  },
+  {
+    "name": "conditional-numeric",
+    "path": "ablations/conditional-numeric.utf",
+    "stdin": "",
+    "repair": true,
+    "fuel": 200,
+    "output": "Y",
+    "stack": []
+  },
+  {
+    "name": "conditional-typed-mismatch",
+    "path": "ablations/conditional-typed-mismatch.utf",
+    "stdin": "",
+    "repair": false,
+    "fuel": 200,
+    "output": "XY",
+    "stack": []
+  },
+  {
+    "name": "number-negative-inside-braces",
+    "path": "ablations/number-negative-inside-braces.utf",
+    "stdin": "",
+    "repair": false,
+    "fuel": 200,
+    "output": "",
+    "stack": [],
+    "error": "P001"
+  },
+  {
+    "name": "unclosed-array",
+    "path": "ablations/unclosed-array.utf",
+    "stdin": "",
+    "repair": false,
+    "fuel": 200,
+    "output": "",
+    "stack": [
+      "a"
+    ],
+    "error": "P003"
+  },
+  {
+    "name": "unmatched-close",
+    "path": "ablations/unmatched-close.utf",
+    "stdin": "",
+    "repair": false,
+    "fuel": 200,
+    "output": "",
+    "stack": [],
+    "error": "P003"
+  },
+  {
+    "name": "unmatched-number-close",
+    "path": "ablations/unmatched-number-close.utf",
+    "stdin": "",
+    "repair": false,
+    "fuel": 200,
+    "output": "",
+    "stack": [],
+    "error": "P003"
+  },
+  {
+    "name": "trailing-escape",
+    "path": "ablations/trailing-escape.utf",
+    "stdin": "",
+    "repair": false,
+    "fuel": 200,
+    "output": "",
+    "stack": [
+      "a"
+    ],
+    "error": "P003"
+  },
+  {
+    "name": "input-exhausted",
+    "path": "ablations/input-exhausted.utf",
+    "stdin": "",
+    "repair": false,
+    "fuel": 200,
+    "output": "",
+    "stack": [],
+    "error": "P009"
+  },
+  {
+    "name": "division-zero",
+    "path": "ablations/division-zero.utf",
+    "stdin": "",
+    "repair": false,
+    "fuel": 200,
+    "output": "",
+    "stack": [],
+    "error": "P010"
+  },
+  {
+    "name": "fuel-bounded-goto",
+    "path": "ablations/fuel-bounded-goto.utf",
+    "stdin": "",
+    "repair": true,
+    "fuel": 7,
+    "output": "",
+    "stack": [],
+    "error": "P008"
+  },
+  {
+    "name": "goto-float-indices-rejected",
+    "path": "ablations/goto-float-indices-rejected.utf",
+    "stdin": "",
+    "repair": false,
+    "fuel": 200,
+    "output": "",
+    "stack": [],
+    "error": "P007"
+  },
+  {
+    "name": "conditional-float-indices-rejected",
+    "path": "ablations/conditional-float-indices-rejected.utf",
+    "stdin": "",
+    "repair": false,
+    "fuel": 200,
+    "output": "",
+    "stack": [],
+    "error": "P007"
+  }
+]

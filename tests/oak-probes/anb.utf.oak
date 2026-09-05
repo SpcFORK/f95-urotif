@@ -1,0 +1,5 @@
+main := import('../../reference/urotif/main')
+std := import('std')
+ctx := main.file('reference/smp/anb.utf')
+std.println('')
+std.println(ctx.Env.Memory)

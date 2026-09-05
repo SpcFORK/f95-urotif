@@ -1,0 +1,5 @@
+std := import('std')
+std.println(0 = 0.0)
+std.println(int('bad'))
+print(1)
+print(['a'])

@@ -1,0 +1,7 @@
+main := import('main')
+std := import('std')
+
+with main.text() with std.slice(res := args()) if {
+	res.0 = 'oak' -> 2
+	_ -> 1
+}

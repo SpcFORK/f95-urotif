@@ -1,0 +1,337 @@
+std := import('std')
+str := import('str')
+fs := import('fs')
+
+// ---
+
+fn makeEnv Env := {
+	// @@ Macros  Handled on creation, so may be var
+	Env: fn(x) Env
+	EnvMacros: EnvMacros := {}
+
+	// @@ Tables
+	tabstc: fn tabstc []
+	Tables: tabstc()
+
+	$tdl: fn $tat(x) Env.Tables <- tabstc()
+	$tat: fn $tat(x) Env.Tables.(x)
+	$tmk: fn $tmk(k, v) Env.Tables << [k, v]
+	$tgi: fn $tgi(k) {
+		fn sub(i) if i {
+			-1 -> i
+			_ -> if Env.Tables.(i).0 = k {
+				true -> i
+				_ -> sub(i - 1)
+			}
+		}
+		sub(len(Env.Tables) - 1)
+	}
+	$tvi: fn $tvi(k, vx) {
+		fn sub(i, c) if i {
+			-1 -> i
+			_ -> if Env.Tables.(i).0 = k {
+				true -> if vx = c {
+					true -> i
+					_ -> sub(i - 1, c + 1)
+				}
+				_ -> sub(i - 1, c)
+			}
+		}
+		sub(len(Env.Tables) - 1, 0)
+	}
+	$tgv: fn $tgv(k) Env.Tables.($tgi(k)).1
+	$tfv: fn $tfv(k, vx) Env.Tables.($tvi(k, vx)).1
+
+	// @@ Stack
+	memstc: fn memstc [[]]
+	Memory: memstc()
+
+	$ig: fn $ig(x) Env.Memory.(x)
+	$il: fn $il len(Env.Memory)
+	$ic: fn $ic $ig($il() - 1)
+
+	clrMem: fn clrMem Env.Memory <- memstc()
+	addMem: fn addMem(x) Env.Memory << x
+	popMem: fn popMem {
+		lastItem := $ic()
+		Env.Memory <- std.take(Env.Memory, $il() - 1)
+		lastItem
+	}
+
+	add: fn add(v) $ic() << v
+	ins: fn ins(v) with std.append([v]) $ic()
+	slen: fn slen len($ic())
+
+	get: fn get(x) $ic().(x)
+	from: fn from(ic) get(ic + slen() - 1)
+	peek: fn peek from(0)
+
+	pop: fn pop {
+		lastItem := peek()
+		Env.Memory.($il() - 1) <- std.take($ic(), slen() - 1)
+		lastItem
+	}
+
+	// L -> F
+	// F -> L
+	shuf: fn shuf pop() |> ins()
+	rshuf: fn rshuf shift() |> add()
+
+	shift: fn shift {
+		firstItem := $ic().0
+		Env.Memory.($il() - 1) <- std.slice($ic(), 1)
+		firstItem
+	}
+
+	drop: fn drop Env.Memory.($il() - 1) <- std.take($ic(), len($ic()) - 1)
+	dup: fn dup Ctx.Stack << peek()
+
+	swap: fn swap {
+		topItem := pop()
+		secondItem := pop()
+		add(topItem)
+		add(secondItem)
+	}
+
+	over: fn over {
+		secondItem := $ic().(len($ic()) - 2)
+		$ic() << secondItem
+	}
+
+	rot: fn rot { // cba -> acb
+		a := pop()
+		b := pop()
+		c := pop()
+		add(a)
+		add(c)
+		add(b)
+	}
+
+	rotcc: fn rotcc { // cba -> bac
+		a := pop()
+		b := pop()
+		c := pop()
+		add(b)
+		add(a)
+		add(c)
+	}
+
+	// ---
+
+	lower: lower := 'abcdefghijklmnopqrstuvwxyz'
+	upper: upper := 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+
+	numbers: numbers := [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+	numstr: numstr := (numbers |> std.map(string) |> str.join(''))
+
+	symbl: symbl := '#$%&*+-./:<=>?@^_`{|}~'
+	bools: bools := [false, true]
+
+	chars: chars := lower + upper + numstr + symbl
+	basicPushables: basicPushables := lower + upper + ' <>,./"\''
+
+	_PushableMacro: with std.each(basicPushables + numstr) fn(ii, ic) EnvMacros.(ii) := fn() add(ii)
+
+	// ---
+
+	'_': fn(Ctx) Env.pop()
+	'#': fn(Ctx) Ctx.line <- Ctx.line + 1
+	'`': fn(Ctx) Env.add(input('').data)
+
+	fromEntries: fn fromEntries(es) with std.reduce(es, {}) fn(o, ev) o.(ev.0) := ev.1
+	'&': fn(Ctx, ic, x, op) fromEntries(Env.pop()) |> Env.add()
+
+	'%': fn(Ctx, ic, x, op) Env.peek() |> Env.add()
+	'+': fn(Ctx, ic, x, op) Env.add(Env.pop() + Env.pop())
+	'-': fn(Ctx, ic, x, op) Env.add(-Env.pop() + Env.pop())
+	'*': fn(Ctx, ic, x, op) Env.add(Env.pop() * Env.pop())
+	'|': fn(Ctx, ic, x, op) {
+		bx := Env.pop()
+		ax := Env.pop()
+		Env.add(ax / bx)
+	}
+
+	'~': fn(Ctx) Env.add(-Env.pop())
+	'$': fn(Ctx, ic, x, op) Env.pop() |> string() |> print()
+
+	gotoVec: fn gotoVec(Ctx) [Env.pop() - 1, Env.pop() - 1]
+	gotoPos: fn gotoPos(Ctx, Vec) {
+		Ctx.char <- Vec.0
+		Ctx.line <- Vec.1
+	}
+
+	'^': fn gotoMem(Ctx) gotoPos(Ctx, gotoVec(Ctx))
+	'=': fn(Ctx, ic, x, op) if {
+		[goto, ax, bx] := [gotoVec(Ctx), Env.pop(), Env.pop()]
+		ax = bx -> gotoPos(Ctx, goto)
+	}
+
+	'\\': fn dslash(Ctx, ic, x, op) {
+		Ctx.char <- Ctx.char + 1
+		if nic := Ctx.getChar(x) {
+			'n' -> Env.add('\n')
+			_ -> Env.add(nic)
+		}
+	}
+
+	'[': fn arrOpen(Ctx, ic, x, op) Env.addMem([])
+	']': fn arrClose(Ctx, ic, x, op) Env.popMem() |> Env.add()
+
+	'{': fn(Ctx, ic, x, op) arrOpen(Ctx, ic, x, op)
+	'}': fn(Ctx, ic, x, op) {
+		// Number conv.
+		arrClose(Ctx, ic, x, op)
+		Env.pop() |>
+			std.map(string) |>
+			str.join() |>
+			float() |>
+			Env.add()
+	}
+
+	':': fn dump(Ctx, ic, x, op) std.each(Env.pop(), Env.add)
+	';': fn access(Ctx, ic, x, op) {
+		k := Env.pop()
+		h := Env.pop()
+		Env.add(k.(h))
+	}
+
+	// @@ At-Calls
+	ExternAts: {}
+	cnst: fn cnst(x) fn() x
+
+	largeStdAtCall: fn largeStdAtCall(Ctx, ic, x, op, arm, last) if arm {
+
+	}
+
+	'@': fn(Ctx, ic, x, op) if sym := Env.pop() {
+		fn last { last <- cnst(Env.pop()) }()
+
+		'x' -> Env.add(last)
+
+		'g' -> Env.(last().0) |> Env.add()
+		'G' -> std.(last().0) |> Env.add()
+
+		'v' -> Env.(str.join(last()))
+		'V' -> Env.(last().0) <- last().1
+		'@' -> last()(Ctx, ic, x, op)
+
+		fn callFx(sc, lx) with Env.add() sc.(lx.0)(std.slice(lx, 1)...)
+		'c' -> callFx(Ctx, last())
+		'C' -> callFx(std, last())
+		'_' -> callFx(last()...)
+
+		'm', 'M' -> if URM := import(str.join(last())).UrotifRun {
+			? -> ?
+			_ -> URM(Ctx, ic, x, op)
+		}
+
+		'u', 'U' -> fs.readFile(str.join(last())) |> Ctx.eval(x) |> Env.add()
+		'i', 'I' -> import(str.join(last())) |> Env.add()
+
+		'l', 'L' -> if lx := last() {
+			[_, _, 'V']
+			[_, _, 'v'] -> $tfv(lx...) |> Env.add()
+
+			[_, _] -> $tmk(lx...)
+			_ -> $tgv(lx.0) |> Env.add()
+		}
+
+		fn printFx(ps) std.each(ps, print)
+		'p' -> printFx(last())
+		'P' -> (printFx(last()), print('\n'))
+
+		's' -> string(last()) |> Env.add()
+		'S' -> str.join(last()) |> Env.add()
+
+		fn evalSq(lx) Ctx.eval(lx, x)
+		fn evalAtSq(lx) { evalSq(lx), evalSq('@') }
+		'e' -> evalSq(last())
+		'E' -> evalSq(last()) |> Env.add()
+		'a', 'A' -> evalAtSq(last())
+
+		'i', 'I' -> std.reverse(last()) |> Env.add()
+		'g', 'G' -> with Env.add() with std.reduce(last(), ?) fn(_, gx)(gx.0).(gx.1)
+
+		_ -> if {
+			ExternAts.(sym) != ? -> ExternAts.(sym)(Ctx, ic, x, op, sym, last)
+			type(sym) = :array -> if {
+				arm := str.join(sym)
+				ExternAts.(arm) != ? -> ExternAts.(arm)(Ctx, ic, x, op, arm, last)
+				_ -> largeAtCall(Ctx, ic, x, op, arm, last)
+			}
+		}
+	}
+
+} |> std.merge(EnvMacros)
+
+// ---
+
+fn Urotif(Env) Uctx := {
+	// @@ Env
+	Env: Env |> std.default(makeEnv())
+	read: fn read(k) Uctx.Env.(k)
+	assg: fn assg(k, v) Uctx.Env.(k) <- v
+	dele: fn dele(k) assg(k, ?)
+
+	ret: fn() read(:peek)()
+
+	// ---
+
+	line: 0
+	char: 0
+
+	inc: fn inc Uctx.char <- Uctx.char + 1
+	incLine: fn incLine {
+		Uctx.line <- Uctx.line + 1
+		Uctx.char <- 0
+	}
+
+	getLine: fn getLine(ii) ii.(Uctx.line)
+	getChar: fn getChar(ii) ii.(Uctx.line).(Uctx.char)
+
+	// ---
+
+	eval: fn eval(char, code) if op := Uctx.Env.(char) {
+		? -> ?
+		_ -> if type(op) {
+			:function -> op(Uctx, char, code, op)
+			_ -> op
+		}
+	}
+
+	doLoop: fn doLoop(char, code) {
+		eval(char, code)
+		inc()
+	}
+
+	loop: fn loop(code) if Uctx.line < len(code) -> {
+		if Uctx.char < len(getLine(code)) {
+			char := getChar(code)
+			true -> doLoop(char, code)
+			_ -> incLine()
+		}
+		loop(code)
+	}
+
+	run: fn run(x) if type(x) = :string -> {
+		if str.startsWith?(x, '=)') -> Uctx.line <- 1
+		loop(str.split(x, '\n'))
+		Uctx
+	}
+
+	quick: fn quick(x) if res := run(x) {
+		{ _ } -> res.ret()
+	}
+
+	repl: fn repl with std.loop() fn(ic, breaker) if inp := input() {
+		{ _ } -> inp.data |> quick() |> std.println()
+	}
+}
+
+// ---
+
+fn text(x) Urotif().run(x)
+fn quick(x) Urotif().quick(x)
+fn repl() Urotif().repl()
+
+fn file(x) fs.readFile(x) |> text()

@@ -1,0 +1,8 @@
+main := import('main')
+std := import('std')
+
+res := args()
+with main.file() res.if {
+	__.0 = 'oak' -> 2
+	_ -> 1
+}
