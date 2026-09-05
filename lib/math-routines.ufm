@@ -1,0 +1,10 @@
+=) urotif library
+# Include after the caller's .halt; labels are global within one assembly.
+.label square
+%*
+.return
+.label cube
+.dup
+.call square
+*
+.return

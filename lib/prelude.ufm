@@ -1,0 +1,10 @@
+=) urotif library
+# Nonrecursive source macros. Each .use expands to primitive Urotif bytes.
+.define square %*
+.define cube %%**
+.define concat x@+
+.define read_int `[std.int]r@@
+.define read_float `[std.float]r@@
+.define length [std.len]r@@
+.define newline \n$
+.define hypot %*x@%*+[math.sqrt]r@@

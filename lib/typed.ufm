@@ -1,0 +1,13 @@
+=) urotif library
+# Optional convenience words: ordinary source macros, not new VM opcodes.
+# Import declarations / native libraries must still be granted by the caller.
+.define hex [buffers.hex]r@@
+.define unhex [buffers.unhex]r@@
+.define byte_concat [buffers.concat]r@@
+.define byte_prefix [buffers.prefix]r@@
+.define affine [buffers.affine]r@@
+.define vector_sum [buffers.sum]r@@
+.define dot [buffers.dot]r@@
+.define uppercase [unicode.upper]r@@
+.define codepoints [unicode.codepoints]r@@
+.define sort [unicode.sort]r@@
